@@ -7,8 +7,11 @@ const config: Config.InitialOptions = {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  testMatch: ["**/tests/**/*.test.tsx"], // Jestが実行するテストファイルのパターンを指定
-  testPathIgnorePatterns: ["/node_modules/", "<rootDir>/playwright/"], // Jestが無視するテストファイルのパターンを指定
+  testMatch: ["**/tests/**/*.test.tsx"],
+  testPathIgnorePatterns: ["/node_modules/", "<rootDir>/playwright/"],
+  moduleNameMapper: {
+    "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
+  },
   preset: "ts-jest",
 };
 
