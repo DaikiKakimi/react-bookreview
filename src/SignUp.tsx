@@ -3,13 +3,15 @@ import axios from "axios";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+//import Compressor from "compressorjs";
 
 type Inputs = {
+  name: string;
   email: string;
   password: string;
 };
 
-const Login = () => {
+const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -20,7 +22,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     axios
-      .post("https://railway.bookreview.techtrain.dev/signin", data)
+      .post("https://railway.bookreview.techtrain.dev/users", data)
       .then((res) => {
         console.log(res);
       })
@@ -37,9 +39,22 @@ const Login = () => {
       <div className="flex h-screen flex-col items-center justify-center ">
         <div className="mt-16 w-full md:mt-0 md:w-2/5">
           <div className="relative z-10 h-auto overflow-hidden rounded-lg border-b-2 border-gray-300 bg-white p-8 px-7 py-10 shadow-2xl">
-            <h3 className="mb-6 text-center text-2xl font-medium">ログイン</h3>
+            <h3 className="mb-6 text-center text-2xl font-medium">新規作成</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <p className="text-red-500">{errorMessage}</p>
+              <label>
+                ユーザー名
+                <input
+                  type="text"
+                  className={`mb-4 block w-full rounded-lg border-2 border-gray-200 px-4 py-3 focus:outline-none focus:ring focus:ring-blue-500 ${
+                    errors.name ? "border-red-500" : ""
+                  }`}
+                  placeholder="ユーザー名を入力"
+                  {...register("name", {
+                    required: "ユーザー名を入力してください",
+                  })}
+                />
+              </label>
               <label>
                 メールアドレス
                 <input
@@ -51,8 +66,7 @@ const Login = () => {
                   {...register("email", {
                     required: "メールアドレスを入力してください",
                     pattern: {
-                      value:
-                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                       message: "正しいメールアドレスを入力してください",
                     },
                   })}
@@ -65,7 +79,7 @@ const Login = () => {
                   className={`mb-4 block w-full rounded-lg border-2 border-gray-200 px-4 py-3 focus:outline-none focus:ring focus:ring-blue-500 ${
                     errors.password ? "border-red-500" : ""
                   }`}
-                  placeholder="6文字以上のパスワードを入力"
+                  placeholder="6文字以上のパスワードを設定"
                   {...register("password", {
                     required: "パスワードを入力してください",
                     minLength: {
@@ -75,6 +89,9 @@ const Login = () => {
                   })}
                 />
               </label>
+              {errors.name && (
+                <p className="text-red-500">{errors.name.message}</p>
+              )}
               {errors.email && (
                 <p className="text-red-500">{errors.email.message}</p>
               )}
@@ -86,12 +103,12 @@ const Login = () => {
                   className="w-full rounded-lg bg-[#9117f5] px-3 py-4 font-medium text-white"
                   type="submit"
                 >
-                  ログイン
+                  アカウント作成
                 </button>
               </div>
             </form>
             <p className="m-4 text-center text-indigo-600 hover:text-indigo-800 ">
-              <Link to="/signup">新規作成</Link>
+              <Link to="/login">ログインへ</Link>
             </p>
           </div>
         </div>
@@ -100,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
