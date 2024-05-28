@@ -16,4 +16,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  globals: {
+    require: true,
+  },
 };

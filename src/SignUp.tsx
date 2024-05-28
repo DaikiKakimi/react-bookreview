@@ -3,12 +3,14 @@ import axios from "axios";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-//import Compressor from "compressorjs";
-
+import Compressor from "compressorjs";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 type Inputs = {
   name: string;
   email: string;
   password: string;
+  profileImage: FileList;
 };
 
 const SignUp = () => {
@@ -88,6 +90,18 @@ const SignUp = () => {
                     },
                   })}
                 />
+              </label>
+              <label>
+                {/* プロフィール画像
+                <input
+                  type="file"
+                  className="mb-4"
+                  {...register("profileImage")}
+                /> */}
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="picture">プロフィール画像</Label>
+                  <Input type="file" />
+                </div>
               </label>
               {errors.name && (
                 <p className="text-red-500">{errors.name.message}</p>

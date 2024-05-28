@@ -10,7 +10,9 @@ describe("Login component", () => {
     render(<Login />);
 
     // ログインフォームの見出しを確認
-    expect(screen.getByRole("heading", { name: /ログイン/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /ログイン/i }),
+    ).toBeInTheDocument();
 
     // メールアドレスの入力フィールドを確認
     expect(screen.getByLabelText(/メールアドレス/i)).toBeInTheDocument();
@@ -19,6 +21,8 @@ describe("Login component", () => {
     expect(screen.getByLabelText(/パスワード/i)).toBeInTheDocument();
 
     // ログインボタンを確認
-    expect(screen.getByRole("button", { name: /ログイン/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /ログイン/i }),
+    ).toBeInTheDocument();
   });
 });
