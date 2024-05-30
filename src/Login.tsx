@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { APIurl } from "./const";
+import { useCookies } from "react-cookie";
 
 type Inputs = {
   email: string;
@@ -10,7 +12,9 @@ type Inputs = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const [cookies, setCookie] = useCookies();
   const {
     register,
     handleSubmit,
@@ -19,10 +23,15 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+
     axios
-      .post("https://railway.bookreview.techtrain.dev/signin", data)
+      .post(`${APIurl}/signin`, data)
       .then((res) => {
-        console.log(res);
+        const token = res.data.token;
+        setCookie("token", token);
+        console.log(cookies);
+        console.log(res.data);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

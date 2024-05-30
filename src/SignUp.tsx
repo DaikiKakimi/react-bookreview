@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Compressor from "compressorjs";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useCookies } from "react-cookie";
+import { APIurl } from "./const";
+
 type Inputs = {
   name: string;
   email: string;
@@ -14,19 +15,82 @@ type Inputs = {
 };
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies();
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    const { email, name, password, profileImage } = data;
+
     axios
-      .post("https://railway.bookreview.techtrain.dev/users", data)
+      .post(`${APIurl}/users`, {
+        name,
+        email,
+        password,
+      })
       .then((res) => {
-        console.log(res);
+        const token = res.data.token;
+        setCookie("token", token);
+        console.log(cookies);
+
+        console.log("ユーザー作成完了", res.data);
+        setErrorMessage("");
+
+        if (profileImage.length > 0) {
+          const imageFile = profileImage[0];
+
+          //画像ファイルのフォーマット確認
+          if (imageFile.size > 1048576) {
+            setErrorMessage("ファイルサイズは1MB以下にしてください");
+            return;
+          }
+
+          const validExtensions = ["image/jpeg", "image/png"];
+          if (!validExtensions.includes(imageFile.type)) {
+            setErrorMessage("画像の拡張子はjpgまたはpngのみ許可されています");
+            return;
+          }
+
+          //Compressor.jsを使用して圧縮処理
+          new Compressor(imageFile, {
+            quality: 0.6,
+            success(result) {
+              const formData = new FormData();
+              formData.append("icon", result, imageFile.name);
+
+              axios
+                .post(`${APIurl}/uploads`, formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                  },
+                })
+                .then((uploadRes) => {
+                  console.log("Image uploaded:", uploadRes.data);
+                  setErrorMessage("");
+                  alert("サインアップに成功しました！");
+                  reset();
+                  navigate("/login");
+                })
+                .catch((err) => {
+                  console.log(err);
+                  setErrorMessage(
+                    `画像のアップロードに失敗しました。 ${err.response.data.ErrorMessageJP}`,
+                  );
+                });
+            },
+            error(err) {
+              console.log(err.message);
+              setErrorMessage("画像の圧縮に失敗しました。");
+            },
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -92,16 +156,12 @@ const SignUp = () => {
                 />
               </label>
               <label>
-                {/* プロフィール画像
+                プロフィール画像
                 <input
                   type="file"
-                  className="mb-4"
+                  className="file-input file-input-bordered file-input-md mb-4 block w-full  max-w-xs"
                   {...register("profileImage")}
-                /> */}
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="picture">プロフィール画像</Label>
-                  <Input type="file" />
-                </div>
+                />
               </label>
               {errors.name && (
                 <p className="text-red-500">{errors.name.message}</p>
@@ -112,6 +172,9 @@ const SignUp = () => {
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}
+              {errors.profileImage && (
+                <p className="text-red-500">{errors.profileImage.message}</p>
+              )}
               <div className="block">
                 <button
                   className="w-full rounded-lg bg-[#9117f5] px-3 py-4 font-medium text-white"
@@ -121,7 +184,7 @@ const SignUp = () => {
                 </button>
               </div>
             </form>
-            <p className="m-4 text-center text-indigo-600 hover:text-indigo-800 ">
+            <p className="link link-primary m-4 text-center">
               <Link to="/login">ログインへ</Link>
             </p>
           </div>
