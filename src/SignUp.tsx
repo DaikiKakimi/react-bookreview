@@ -1,11 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import "./index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Compressor from "compressorjs";
 import { useCookies } from "react-cookie";
 import { APIurl } from "./const";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { signIn } from "./redux/authSlice";
 
 type Inputs = {
   name: string;
@@ -15,7 +18,9 @@ type Inputs = {
 };
 
 const SignUp = () => {
+  const auth = useSelector((state: RootState) => state.auth.isSignIn);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [cookies, setCookie] = useCookies();
   const [errorMessage, setErrorMessage] = useState("");
   const {
@@ -36,6 +41,7 @@ const SignUp = () => {
       })
       .then((res) => {
         const token = res.data.token;
+        dispatch(signIn());
         setCookie("token", token);
         console.log(cookies);
 
@@ -99,6 +105,8 @@ const SignUp = () => {
         );
       });
   };
+
+  if (auth) return <Navigate to="/" />;
 
   return (
     <>

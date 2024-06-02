@@ -1,10 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import "./index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { APIurl } from "./const";
 import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { signIn } from "./redux/authSlice";
 
 type Inputs = {
   email: string;
@@ -12,7 +15,9 @@ type Inputs = {
 };
 
 const Login = () => {
+  const auth = useSelector((state: RootState) => state.auth.isSignIn);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [cookies, setCookie] = useCookies();
   const {
@@ -28,6 +33,7 @@ const Login = () => {
       .post(`${APIurl}/signin`, data)
       .then((res) => {
         const token = res.data.token;
+        dispatch(signIn());
         setCookie("token", token);
         console.log(cookies);
         console.log(res.data);
@@ -36,10 +42,12 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
         setErrorMessage(
-          `サインアップに失敗しました。 ${err.response.data.ErrorMessageJP}`,
+          `ログインに失敗しました。 ${err.response.data.ErrorMessageJP}`,
         );
       });
   };
+
+  if (auth) return <Navigate to="/" />;
 
   return (
     <>

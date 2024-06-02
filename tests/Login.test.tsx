@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Login from "../src/Logintest";
+import Login from "../src/test/Logintest";
 import React from "react";
 
 console.log(React.version);
