@@ -5,9 +5,13 @@ import Home from "./Home";
 import Logintest from "./test/Logintest";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import Profile from "./Profile";
 
 function App() {
-  const auth = useSelector((state: RootState) => state.auth.isSignIn);
+  const auth = useSelector((state: RootState) => {
+    console.log(state);
+    return state.auth.isSignIn;
+  });
 
   return (
     <>
@@ -19,6 +23,7 @@ function App() {
           {auth ? (
             <>
               <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
             </>
           ) : (
             <Route path="*" element={<Navigate replace to="/login" />} />

@@ -14,6 +14,7 @@ export const offsetSlice = createSlice({
     toPrevious: (state) => {
       if (state.offsetNumber <= 0) {
         alert("最新のレビューページです");
+        state.offsetNumber = 0;
       } else {
         state.offsetNumber -= 10;
       }

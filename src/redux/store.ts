@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
 import { offsetSlice } from "./offsetSlice";
+import { userSlice } from "./userSlice";
 
 const store = configureStore({
   reducer: {
     offset: offsetSlice.reducer,
     auth: authSlice.reducer,
+    user: userSlice.reducer,
   },
 });
 
