@@ -10,8 +10,6 @@ import { APIurl } from "./const";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { setUserName, setIconUrl } from "./redux/userSlice";
-// import ReactCrop, { Crop } from "react-image-crop";
-// import "react-image-crop/dist/ReactCrop.css";
 
 type Inputs = {
   name: string;
@@ -33,9 +31,6 @@ const Profile = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  // const [crop, setCrop] = useState<Crop>({ unit: "%", width: 50, aspect: 1 });
-  // const [croppedImageUrl, setCroppedImageUrl] = useState<string | null>(null);
-  // const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
