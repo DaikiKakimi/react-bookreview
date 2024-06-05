@@ -43,6 +43,7 @@ function Header() {
   return (
     <>
       {auth ? (
+        //ログインしてるとき
         <div className="container relative mx-auto flex h-24 items-center justify-between overflow-hidden border-b border-gray-200 font-medium sm:px-4 md:overflow-visible md:px-2 lg:justify-center lg:px-0">
           <div className="flex items-center">
             <Link
@@ -59,14 +60,13 @@ function Header() {
               <span>{userName}</span>
             </Link>
           </div>
-          <div className="flex w-full flex-col items-start justify-center space-x-6 text-center md:mt-0 md:w-2/3 md:flex-row md:items-center lg:space-x-8">
-            <div className="text-3xl">Book Review</div>
+          <div className="flex w-full flex-col items-start justify-center  text-center md:mt-0 md:w-2/3 md:flex-row md:items-center lg:space-x-8">
+            <Link to={"/"} className=" flex justify-center text-3xl">
+              Book Review
+            </Link>
           </div>
           <div className="flex items-center">
-            <button
-              onClick={handleSignOut}
-              className="mr-0 px-6 py-2 text-gray-700 "
-            >
+            <button onClick={handleSignOut} className="mr-0 p-2 text-gray-700 ">
               サインアウト
             </button>
 
@@ -86,6 +86,7 @@ function Header() {
           </div>
         </div>
       ) : (
+        //ログインしてないとき
         <>
           <div className="container relative mx-auto flex h-24 items-center justify-between overflow-hidden border-b border-gray-200 font-medium sm:px-4 md:overflow-visible md:px-2 lg:justify-center lg:px-0">
             <div className="flex items-center">
@@ -110,47 +111,50 @@ function Header() {
               </a>
             </div>
             <div className="flex w-full flex-col items-start justify-center space-x-6 text-center md:mt-0 md:w-2/3 md:flex-row md:items-center lg:space-x-8">
-              <div className="text-3xl">Book Review</div>
-              {/* <a
-              href="#_"
-              className="mx-0 ml-6 inline-block w-full py-2 text-left font-medium text-black md:mx-2 md:ml-0 md:w-auto md:px-0 md:text-center lg:mx-3"
-            >
-              Home
-            </a>
-            <a
-              href="#_"
-              className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
-            >
-              Features
-            </a>
-            <a
-              href="#_"
-              className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
-            >
-              Blog
-            </a>
-            <a
-              href="#_"
-              className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
-            >
-              Contact
-            </a>
-            <a
-              href="#_"
-              className="absolute left-0 top-0 ml-10 mr-2 mt-6 hidden py-2 text-gray-600 md:relative md:ml-2 md:mt-0 lg:mx-3 lg:inline-block"
-            >
-              <svg
-                className="inline size-5"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <Link to="/" className="text-3xl">
+                Book Review
+              </Link>
+
+              <a
+                href="#_"
+                className="mx-0 ml-6 inline-block w-full py-2 text-left font-medium text-black md:mx-2 md:ml-0 md:w-auto md:px-0 md:text-center lg:mx-3"
               >
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </a> */}
+                Home
+              </a>
+              <a
+                href="#_"
+                className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
+              >
+                Features
+              </a>
+              <a
+                href="#_"
+                className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
+              >
+                Blog
+              </a>
+              <a
+                href="#_"
+                className="mx-0 inline-block w-full py-2 text-left font-medium text-gray-700 hover:text-black md:mx-2 md:w-auto md:px-0 md:text-center lg:mx-3"
+              >
+                Contact
+              </a>
+              <a
+                href="#_"
+                className="absolute left-0 top-0 ml-10 mr-2 mt-6 hidden py-2 text-gray-600 md:relative md:ml-2 md:mt-0 lg:mx-3 lg:inline-block"
+              >
+                <svg
+                  className="inline size-5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </a>
             </div>
             <div className="flex items-center">
               <Link

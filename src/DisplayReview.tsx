@@ -36,10 +36,7 @@ const DisplayReview: React.FC = () => {
   }, [offset]);
 
   const ReviewCard = reviewobjects.map((card, index) => (
-    <div
-      className="card carousel-item mx-4 w-2/5 rounded-none bg-base-100 shadow-2xl"
-      key={index}
-    >
+    <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={index}>
       <div className="card-body">
         <h2 className="card-title">{card.title}</h2>
         <div className="flex">
