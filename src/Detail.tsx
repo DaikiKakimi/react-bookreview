@@ -1,16 +1,37 @@
-import { useSelector } from "react-redux";
-import { RootState } from "./redux/store";
+import { useParams } from "react-router";
+import axios from "axios";
+import { APIurl } from "./const";
+import { useCookies } from "react-cookie";
+import { useState } from "react";
 
 const Detail = () => {
-  const reviews = useSelector((state: RootState) => state.book.reviews);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { book_id } = useParams();
+  const [cookies] = useCookies();
+  //const reviews = useSelector((state: RootState) => state.book.reviews);
+
+  axios
+    .get(`${APIurl}/books/${book_id}`, {
+      headers: {
+        authorization: `Bearer ${cookies.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      setErrorMessage(
+        `ユーザー情報の取得に失敗しました。 ${err.response.data.ErrorMessageJP}`,
+      );
+    });
 
   return (
     <>
       <div className="flex h-screen flex-col items-center justify-center ">
         <div className="mt-16 w-full md:mt-0 md:w-2/5">
-          <div className="relative z-10 h-auto overflow-hidden rounded-lg border-b-2 border-gray-300 bg-white p-8 px-7 py-10 shadow-2xl">
-            <h3 className="mb-6 text-center text-2xl font-medium">SignUp</h3>
-          </div>
+          <h3 className="mb-6 text-center text-2xl font-medium">SignUp</h3>
+          <p className="text-red-500">{errorMessage}</p>
         </div>
       </div>
     </>

@@ -6,9 +6,9 @@ import { RootState } from "./redux/store";
 ("use client");
 import React from "react";
 import "./index.css";
-import { toNext, toPrevious } from "./redux/offsetSlice";
 import { setReviews } from "./redux/bookSlice";
 import { Link } from "react-router-dom";
+import PageNation from "./PageNation";
 
 interface Review {
   id: string;
@@ -43,7 +43,8 @@ const DisplayReview: React.FC = () => {
   const ReviewCard = reviews.map((card) => (
     <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={card.id}>
       <div className="card-body">
-        {/* <div className="card-actions justify-end">
+        {/* 削除アイコン
+        <div className="card-actions justify-end">
           <button className="btn btn-square btn-sm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,30 +81,10 @@ const DisplayReview: React.FC = () => {
     </div>
   ));
 
-  const addOffset = () => {
-    dispatch(toNext());
-  };
-  const reduceOffset = () => {
-    dispatch(toPrevious());
-  };
-
   return (
     <>
       <div className="carousel  w-[90%]">{ReviewCard}</div>
-      <div className="join mt-8 grid grid-cols-2">
-        <button
-          onClick={() => reduceOffset()}
-          className="btn btn-outline join-item"
-        >
-          «
-        </button>
-        <button
-          onClick={() => addOffset()}
-          className="btn btn-outline join-item"
-        >
-          »
-        </button>
-      </div>
+      <PageNation />
     </>
   );
 };

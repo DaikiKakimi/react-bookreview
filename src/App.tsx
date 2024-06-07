@@ -10,10 +10,7 @@ import PostReview from "./PostReview";
 import Detail from "./Detail";
 
 function App() {
-  const auth = useSelector((state: RootState) => {
-    console.log(state);
-    return state.auth.isSignIn;
-  });
+  const auth = useSelector((state: RootState) => state.auth.isSignIn);
 
   return (
     <>
