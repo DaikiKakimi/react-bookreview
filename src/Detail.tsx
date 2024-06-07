@@ -19,7 +19,7 @@ const Detail = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { book_id } = useParams();
   const [cookies] = useCookies();
-  const [review, setReview] = useState<Review | null>(null);
+  const [review, setReview] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
