@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
 import { offsetSlice } from "./offsetSlice";
 import { userSlice } from "./userSlice";
+import { bookSlice } from "./bookSlice";
 
 const store = configureStore({
   reducer: {
     offset: offsetSlice.reducer,
     auth: authSlice.reducer,
     user: userSlice.reducer,
+    book: bookSlice.reducer,
   },
 });
 

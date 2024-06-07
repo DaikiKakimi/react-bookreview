@@ -6,6 +6,8 @@ import Logintest from "./test/Logintest";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import Profile from "./Profile";
+import PostReview from "./PostReview";
+import Detail from "./Detail";
 
 function App() {
   const auth = useSelector((state: RootState) => {
@@ -24,6 +26,8 @@ function App() {
             <>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/new" element={<PostReview />} />
+              <Route path="/detail/:book_id" element={<Detail />} />
             </>
           ) : (
             <Route path="*" element={<Navigate replace to="/login" />} />

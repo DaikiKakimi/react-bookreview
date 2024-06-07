@@ -1,12 +1,14 @@
 import axios from "axios";
 import { APIurl } from "./const";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 ("use client");
 import React from "react";
 import "./index.css";
 import { toNext, toPrevious } from "./redux/offsetSlice";
+import { setReviews } from "./redux/bookSlice";
+import { Link } from "react-router-dom";
 
 interface Review {
   id: string;
@@ -18,30 +20,51 @@ interface Review {
 }
 
 const DisplayReview: React.FC = () => {
-  const [reviewobjects, setReviewObjects] = useState<Review[]>([]);
   const offset = useSelector((state: RootState) => state.offset.offsetNumber);
   const dispatch = useDispatch();
+  const reviews: Review[] = useSelector(
+    (state: RootState) => state.book.reviews,
+  );
+  console.log(reviews);
 
   useEffect(() => {
     axios
       .get(`${APIurl}/public/books?offset=${offset}`)
       .then((res) => {
         console.log(res.data);
-        setReviewObjects(res.data);
+        dispatch(setReviews(res.data));
       })
       .catch((err) => {
         console.log(err);
         alert("レビュー一覧を取得できませんでした");
       });
-  }, [offset]);
+  }, [dispatch, offset]);
 
-  const ReviewCard = reviewobjects.map((card, index) => (
-    <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={index}>
+  const ReviewCard = reviews.map((card) => (
+    <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={card.id}>
       <div className="card-body">
+        {/* <div className="card-actions justify-end">
+          <button className="btn btn-square btn-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="size-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div> */}
         <h2 className="card-title">{card.title}</h2>
         <div className="flex">
           <span>URL：</span>
-          <a className="link link-primary" href={card.url}>
+          <a className="link link-primary" target="_blank" href={card.url}>
             こちらをクリック
           </a>
         </div>
@@ -49,7 +72,9 @@ const DisplayReview: React.FC = () => {
         <p>レビュー：{card.review}</p>
         <p>詳細：{card.detail}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
+          <Link to={`/detail/${card.id}`} className="btn btn-primary">
+            Detail
+          </Link>
         </div>
       </div>
     </div>

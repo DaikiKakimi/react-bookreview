@@ -54,11 +54,11 @@ const Login = () => {
       <div className="flex h-screen flex-col items-center justify-center ">
         <div className="mt-16 w-full md:mt-0 md:w-2/5">
           <div className="relative z-10 h-auto overflow-hidden rounded-lg border-b-2 border-gray-300 bg-white p-8 px-7 py-10 shadow-2xl">
-            <h3 className="mb-6 text-center text-2xl font-medium">ログイン</h3>
+            <h3 className="mb-6 text-center text-2xl font-medium">Login</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <p className="text-red-500">{errorMessage}</p>
               <label>
-                メールアドレス
+                Email
                 <input
                   type="email"
                   className={`mb-4 block w-full rounded-lg border-2 border-gray-200 px-4 py-3 focus:outline-none focus:ring focus:ring-blue-500 ${
@@ -76,7 +76,7 @@ const Login = () => {
                 />
               </label>
               <label>
-                パスワード
+                Password
                 <input
                   type="password"
                   className={`mb-4 block w-full rounded-lg border-2 border-gray-200 px-4 py-3 focus:outline-none focus:ring focus:ring-blue-500 ${
@@ -103,12 +103,12 @@ const Login = () => {
                   className="w-full rounded-lg bg-[#9117f5] px-3 py-4 font-medium text-white"
                   type="submit"
                 >
-                  ログイン
+                  Login
                 </button>
               </div>
             </form>
             <p className="m-4 text-center text-indigo-600 hover:text-indigo-800 ">
-              <Link to="/signup">新規作成</Link>
+              <Link to="/signup">SignUp</Link>
             </p>
           </div>
         </div>
