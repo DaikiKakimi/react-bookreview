@@ -21,17 +21,16 @@ interface Review {
 
 const DisplayReview: React.FC = () => {
   const offset = useSelector((state: RootState) => state.offset.offsetNumber);
+
   const dispatch = useDispatch();
   const reviews: Review[] = useSelector(
     (state: RootState) => state.book.reviews,
   );
-  console.log(reviews);
 
   useEffect(() => {
     axios
       .get(`${APIurl}/public/books?offset=${offset}`)
       .then((res) => {
-        console.log(res.data);
         dispatch(setReviews(res.data));
       })
       .catch((err) => {
@@ -39,6 +38,10 @@ const DisplayReview: React.FC = () => {
         alert("レビュー一覧を取得できませんでした");
       });
   }, [dispatch, offset]);
+
+  const sendLog = () => {
+    console.log("ログを送信！");
+  };
 
   const ReviewCard = reviews.map((card) => (
     <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={card.id}>
@@ -71,9 +74,12 @@ const DisplayReview: React.FC = () => {
         </div>
         <p>レビュワー：{card.reviewer}</p>
         <p>レビュー：{card.review}</p>
-        <p>詳細：{card.detail}</p>
         <div className="card-actions justify-end">
-          <Link to={`/detail/${card.id}`} className="btn btn-primary">
+          <Link
+            to={`/detail/${card.id}`}
+            className="btn btn-primary"
+            onClick={sendLog}
+          >
             Detail
           </Link>
         </div>

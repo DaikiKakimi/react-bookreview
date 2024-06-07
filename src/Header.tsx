@@ -5,7 +5,7 @@ import { signOut } from "./redux/authSlice";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { APIurl } from "./const";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setUserName, setIconUrl } from "./redux/userSlice";
 
 function Header() {
