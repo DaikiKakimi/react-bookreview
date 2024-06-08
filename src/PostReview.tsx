@@ -29,7 +29,7 @@ const PostReview = () => {
     axios
       .post(`${APIurl}/books`, data, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {

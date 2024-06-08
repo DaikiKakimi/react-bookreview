@@ -19,6 +19,7 @@ interface Review {
   reviewer: string;
   review: string;
   detail: string;
+  isMine: boolean;
 }
 
 const DisplayReview: React.FC = () => {
@@ -33,7 +34,11 @@ const DisplayReview: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`${APIurl}/public/books?offset=${offset}`)
+      .get(`${APIurl}/books?offset=${offset}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
       .then((res) => {
         dispatch(setReviews(res.data));
         setLoading(false);
@@ -43,7 +48,7 @@ const DisplayReview: React.FC = () => {
         alert("レビュー一覧を取得できませんでした");
         setLoading(false);
       });
-  }, [dispatch, offset]);
+  }, [dispatch, offset, cookies.token]);
 
   const sendLog = (selectBookId: string) => {
     axios
@@ -52,7 +57,7 @@ const DisplayReview: React.FC = () => {
         { selectBookId },
         {
           headers: {
-            authorization: `Bearer ${cookies.token}`,
+            Authorization: `Bearer ${cookies.token}`,
           },
         },
       )
@@ -68,9 +73,11 @@ const DisplayReview: React.FC = () => {
     <div className="card carousel-item mx-4 w-2/5  bg-base-100" key={card.id}>
       <div className="card-body">
         <div className="card-actions justify-end">
-          <Link to={`/edit/${card.id}`}>
-            <FiEdit size={20} fill="none" stroke="currentColor" />
-          </Link>
+          {card.isMine && (
+            <Link to={`/edit/${card.id}`}>
+              <FiEdit size={20} fill="none" stroke="currentColor" />
+            </Link>
+          )}
         </div>
         <h2 className="card-title">{card.title}</h2>
         <div className="flex">

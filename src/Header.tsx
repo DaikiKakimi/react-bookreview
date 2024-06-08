@@ -34,7 +34,7 @@ function Header() {
     axios
       .get(`${APIurl}/users`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {

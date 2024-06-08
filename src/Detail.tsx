@@ -26,7 +26,7 @@ const Detail = () => {
     axios
       .get(`${APIurl}/books/${book_id}`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {

@@ -42,7 +42,7 @@ const Profile = () => {
     axios
       .get(`${APIurl}/users/`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {
@@ -79,7 +79,7 @@ const Profile = () => {
         { name },
         {
           headers: {
-            authorization: `Bearer ${cookies.token}`,
+            Authorization: `Bearer ${cookies.token}`,
           },
         },
       )

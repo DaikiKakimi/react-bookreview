@@ -33,7 +33,7 @@ const EditReview = () => {
     axios
       .get(`${APIurl}/books/${book_id}`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {
@@ -56,7 +56,7 @@ const EditReview = () => {
     axios
       .put(`${APIurl}/books/${book_id}`, data, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {
@@ -79,7 +79,7 @@ const EditReview = () => {
     axios
       .delete(`${APIurl}/books/${book_id}`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       })
       .then((res) => {
@@ -175,7 +175,7 @@ const EditReview = () => {
                 Update Your Review
               </button>
               <button
-                className="my-2 w-full rounded-lg bg-[#ff3434] px-3 py-4 font-medium text-white"
+                className="my-2 w-full rounded-lg bg-[#000000] px-3 py-4 font-medium text-white"
                 onClick={DeleteReview}
               >
                 Delete Your Review
