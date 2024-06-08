@@ -38,7 +38,6 @@ function Header() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         dispatch(setUserName(res.data.name));
         dispatch(setIconUrl(res.data.iconUrl));
       })

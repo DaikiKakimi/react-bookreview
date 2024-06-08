@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./index.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -6,8 +6,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useCookies } from "react-cookie";
 import { APIurl } from "./const";
 import Header from "./Header";
-import { useSelector } from "react-redux";
-import { RootState } from "./redux/store";
 
 type Inputs = {
   title: string;
@@ -16,41 +14,44 @@ type Inputs = {
   review: string;
 };
 
-interface Review {
-  id: string;
-  title: string;
-  url: string;
-  reviewer: string;
-  review: string;
-  detail: string;
-}
-
 const EditReview = () => {
-  const reviews: Review[] = useSelector(
-    (state: RootState) => state.book.reviews,
-  );
   const { book_id } = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies();
   const [errorMessage, setErrorMessage] = useState("");
-  const [Pre_title, setPre_title] = useState("");
-  const [Pre_url, setPre_url] = useState("");
-  const [Pre_detail, setPre_detail] = useState("");
-  const [Pre_review, setPre_review] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<Inputs>({
-    defaultValues: {
-      title: Pre_title,
-      url: Pre_url,
-      detail: Pre_detail,
-      review: Pre_review,
-    },
-  });
+    setValue,
+  } = useForm<Inputs>({});
 
+  //初期値の代入知の取得
+  useEffect(() => {
+    axios
+      .get(`${APIurl}/books/${book_id}`, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setValue("title", res.data.title);
+        setValue("url", res.data.url);
+        setValue("detail", res.data.detail);
+        setValue("review", res.data.review);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(
+          `ユーザー情報の取得に失敗しました。 ${err.response.data.ErrorMessageJP}`,
+        );
+      });
+  }, [cookies.token, setValue, book_id]);
+
+  //更新
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     axios
       .put(`${APIurl}/books/${book_id}`, data, {
@@ -69,6 +70,28 @@ const EditReview = () => {
         console.log(err);
         setErrorMessage(
           `レビューの更新に失敗しました。 ${err.response.data.ErrorMessageJP}`,
+        );
+      });
+  };
+
+  //削除
+  const DeleteReview = () => {
+    axios
+      .delete(`${APIurl}/books/${book_id}`, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        alert("レビューの削除に成功しました。");
+        navigate("/");
+        setErrorMessage("");
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(
+          `レビューの削除に失敗しました。 ${err.response.data.ErrorMessageJP}`,
         );
       });
   };
@@ -146,10 +169,16 @@ const EditReview = () => {
             )}
             <div className="block">
               <button
-                className="w-full rounded-lg bg-[#9117f5] px-3 py-4 font-medium text-white"
+                className="my-2 w-full rounded-lg bg-[#9117f5] px-3 py-4 font-medium text-white"
                 type="submit"
               >
                 Update Your Review
+              </button>
+              <button
+                className="my-2 w-full rounded-lg bg-[#ff3434] px-3 py-4 font-medium text-white"
+                onClick={DeleteReview}
+              >
+                Delete Your Review
               </button>
             </div>
           </form>
