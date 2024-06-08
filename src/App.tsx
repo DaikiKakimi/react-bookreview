@@ -8,6 +8,7 @@ import { RootState } from "./redux/store";
 import Profile from "./Profile";
 import PostReview from "./PostReview";
 import Detail from "./Detail";
+import EditReview from "./EditReview";
 
 function App() {
   const auth = useSelector((state: RootState) => state.auth.isSignIn);
@@ -25,6 +26,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/new" element={<PostReview />} />
               <Route path="/detail/:book_id" element={<Detail />} />
+              <Route path="/edit/:book_id" element={<EditReview />} />
             </>
           ) : (
             <Route path="*" element={<Navigate replace to="/login" />} />
