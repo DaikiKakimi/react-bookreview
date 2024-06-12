@@ -74,7 +74,7 @@ const DisplayReview: React.FC = () => {
       <div className="card-body">
         <div className="card-actions justify-end">
           {card.isMine && (
-            <Link to={`/edit/${card.id}`}>
+            <Link to={`/edit/${card.id}`} aria-label="Edit Review">
               <FiEdit size={20} fill="none" stroke="currentColor" />
             </Link>
           )}

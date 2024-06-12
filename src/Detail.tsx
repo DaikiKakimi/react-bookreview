@@ -19,7 +19,7 @@ const Detail = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { book_id } = useParams();
   const [cookies] = useCookies();
-  const [review, setReview] = useState<Review[]>([]);
+  const [review, setReview] = useState<Review | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,8 +56,8 @@ const Detail = () => {
       <div className="flex h-screen flex-col items-center justify-center ">
         <div className="mt-16 w-full md:mt-0 md:w-2/5">
           <h3 className="mb-6 text-center text-2xl font-medium">
-            <div className="m-10">タイトル：{review.title}</div>
-            <div className="m-10">詳細：{review.detail}</div>
+            <div className="m-10">タイトル：{review?.title}</div>
+            <div className="m-10">詳細：{review?.detail}</div>
           </h3>
           <p className="text-red-500">{errorMessage}</p>
           <p className="m-4 text-center text-indigo-600 hover:text-indigo-800 ">
